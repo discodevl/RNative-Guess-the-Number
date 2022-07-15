@@ -1,13 +1,33 @@
-import { StyleSheet, ImageBackground } from "react-native";
+import { useState } from "react";
+import { StyleSheet, ImageBackground, SafeAreaView } from "react-native";
 import StartGameScreen from "./screens/StartGameScreen";
 import { LinearGradient } from "expo-linear-gradient";
-import bg from './assets/background.png'
+import bg from "./assets/background.png";
+import GameScreen from "./screens/GameScreen";
+import Colors from "./constants/color";
 
 export default function App() {
+  const [userNumber, setUserNnumber] = useState();
+
+  function pickedNumberHandler(pick) {
+    setUserNnumber(pick);
+  }
+
+  let screen = <StartGameScreen onPickNumber={pickedNumberHandler} />;
+
+  if (userNumber) {
+    screen = <GameScreen userNumber={userNumber}/>;
+  }
+
   return (
-    <LinearGradient colors={["#4e0329", "#ddb52f"]} style={styles.rootScreen}>
-      <ImageBackground source={bg} resizeMode='cover' style={styles.rootScreen} imageStyle={styles.backgroundImage}>
-        <StartGameScreen />
+    <LinearGradient colors={[Colors.primary700, Colors.accent500]} style={styles.rootScreen}>
+      <ImageBackground
+        source={bg}
+        resizeMode="cover"
+        style={styles.rootScreen}
+        imageStyle={styles.backgroundImage}
+      >
+        <SafeAreaView style={styles.rootScreen}>{screen}</SafeAreaView>
       </ImageBackground>
     </LinearGradient>
   );
@@ -15,11 +35,9 @@ export default function App() {
 
 const styles = StyleSheet.create({
   rootScreen: {
-    backgroundColor: "#ddb52f",
     flex: 1,
   },
   backgroundImage: {
     opacity: 0.15,
-
-  }
+  },
 });
