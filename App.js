@@ -13,6 +13,7 @@ export default function App() {
     setUserNnumber(pick);
   }
 
+  //testing
   let screen = <StartGameScreen onPickNumber={pickedNumberHandler} />;
 
   if (userNumber) {
