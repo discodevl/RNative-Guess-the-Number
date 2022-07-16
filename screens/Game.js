@@ -6,7 +6,7 @@ import {
   Pressable,
   Text,
   ToastAndroid,
-  Alert
+  Alert,
 } from "react-native";
 import { useState } from "react";
 import Colors from "../constants/color";
@@ -22,27 +22,34 @@ export default function Game(props) {
   }
 
   function back() {
-    console.log('back');
+    console.log("back");
     props.onPress();
   }
 
   console.log("choice", pcNumber);
-  console.log(tries);
 
   function confirmHandler() {
     const diff = Math.abs(pcNumber - userNumber);
     if (diff === 0) {
-      Alert.alert("Congrats!", `You guessed with ${tries} tries!`, [{ text: "Close", style: "destructive", onPress: back }] )
+      Alert.alert("Congrats!", `You took ${tries} tries to guess the number`, [
+        { text: "Close", style: "destructive", onPress: back },
+      ]);
       return;
-    } else if (diff <= 5) {
-      ToastAndroid.show("Very Hot", ToastAndroid.SHORT);
-    } else if (diff <= 10) {
+    } else if (diff <= 3) {
+      ToastAndroid.show("Veeery Hot", ToastAndroid.SHORT);
+    } else if (diff <= 6) {
+      ToastAndroid.show("Hot hot hot", ToastAndroid.SHORT);
+    } else if (diff <= 12) {
       ToastAndroid.show("Hot", ToastAndroid.SHORT);
     } else if (diff <= 20) {
-      ToastAndroid.show("Cold", ToastAndroid.SHORT);
+      ToastAndroid.show("Warm", ToastAndroid.SHORT);
     } else if (diff <= 30) {
+      ToastAndroid.show("Cold", ToastAndroid.SHORT);
+    } else if (diff <= 40) {
+      ToastAndroid.show("Ice Cold", ToastAndroid.SHORT);
+    } else if (diff <= 48) {
       ToastAndroid.show("Very Cold", ToastAndroid.SHORT);
-    } else if (diff > 30) {
+    } else if (diff > 48) {
       ToastAndroid.show("Veeeery Cold", ToastAndroid.SHORT);
     }
     setTries(tries + 1);
@@ -51,7 +58,11 @@ export default function Game(props) {
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
-        <Button title="Back" onPress={props.onPress} />
+        <View style={styles.backButton}>
+          <Pressable onPress={props.onPress}>
+            <Text style={{ fontWeight: "bold" }}>←</Text>
+          </Pressable>
+        </View>
         <TextInput
           style={styles.numberInput}
           keyboardType="number-pad"
@@ -60,10 +71,8 @@ export default function Game(props) {
           value={userNumber}
         />
         <View style={styles.buttonsContainer}>
-          <View style={styles.buttonContainer}>
-            <Pressable onPress={confirmHandler}>
-              <Text>Confirm</Text>
-            </Pressable>
+          <View s>
+            <Button title="Confirm" onPress={confirmHandler} />
           </View>
         </View>
       </View>
@@ -109,5 +118,8 @@ const styles = StyleSheet.create({
   },
   triesLabel: {
     marginHorizontal: 24,
+  },
+  backButton: {
+    alignSelf: "flex-start",
   },
 });
