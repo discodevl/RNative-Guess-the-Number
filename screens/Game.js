@@ -8,6 +8,7 @@ import {
   ToastAndroid,
   Alert,
 } from "react-native";
+import {Ionicons} from '@expo/vector-icons'
 import { useState } from "react";
 import Colors from "../constants/color";
 
@@ -60,13 +61,14 @@ export default function Game(props) {
       <View style={styles.inputContainer}>
         <View style={styles.backButton}>
           <Pressable onPress={props.onPress}>
-            <Text style={{ fontWeight: "bold" }}>←</Text>
+          <Ionicons name="arrow-back" size={24} />
           </Pressable>
         </View>
         <TextInput
           style={styles.numberInput}
           keyboardType="number-pad"
-          maxLength={99}
+          maxLength={2}
+          
           onChangeText={inputHandler}
           value={userNumber}
         />
